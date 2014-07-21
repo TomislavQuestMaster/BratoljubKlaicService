@@ -1,5 +1,7 @@
 package hr.epicfail.bk.model;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.Table;
  * Created by Tomo.
  */
 @Entity
+@Proxy(lazy=false)
 @Table(name="words")
 public class Word {
 

@@ -1,14 +1,18 @@
 package hr.epicfail.bk.model.session;
 
+import hr.epicfail.bk.model.Definition;
 import hr.epicfail.bk.model.scholar.Scholar;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Tomo on 20.7.2014
  */
 @Entity
+@Proxy(lazy = false)
 @Table(name = "sessions")
 public class Session {
 
@@ -18,17 +22,20 @@ public class Session {
 
     private String word;
 
-    @Column
-    @ElementCollection(targetClass=Scholar.class)
-    private List<Scholar> scholars;
+	@ManyToOne
+	private Scholar creator;
 
-    @Column
-    @ElementCollection(targetClass=String.class)
-    private List<String> definitions;
+	@OneToMany(fetch = FetchType.EAGER)
+    private List<Definition> definitions;
 
+	@Enumerated(EnumType.STRING)
     private SessionState state;
 
-    public long getId() {
+	public Session() {
+		definitions = new ArrayList<>();
+	}
+
+	public long getId() {
         return id;
     }
 
@@ -44,19 +51,11 @@ public class Session {
         this.word = word;
     }
 
-    public List<Scholar> getScholars() {
-        return scholars;
-    }
-
-    public void setScholars(List<Scholar> scholars) {
-        this.scholars = scholars;
-    }
-
-    public List<String> getDefinitions() {
+    public List<Definition> getDefinitions() {
         return definitions;
     }
 
-    public void setDefinitions(List<String> definitions) {
+    public void setDefinitions(List<Definition> definitions) {
         this.definitions = definitions;
     }
 
@@ -67,4 +66,15 @@ public class Session {
     public void setState(SessionState state) {
         this.state = state;
     }
+
+	public Scholar getCreator() {
+
+		return creator;
+	}
+
+	public void setCreator(Scholar creator) {
+
+		this.creator = creator;
+
+	}
 }

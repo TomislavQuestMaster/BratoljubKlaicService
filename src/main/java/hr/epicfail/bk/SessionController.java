@@ -1,8 +1,8 @@
 package hr.epicfail.bk;
 
-import hr.epicfail.bk.model.Word;
-import hr.epicfail.bk.model.WordRepository;
+import hr.epicfail.bk.model.*;
 import hr.epicfail.bk.model.scholar.Scholar;
+import hr.epicfail.bk.model.scholar.ScholarRepository;
 import hr.epicfail.bk.model.session.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +28,19 @@ public class SessionController {
     @Autowired
     private SessionRepository sessionRepository;
 
+	@Autowired
+	private ScholarRepository scholarRepository;
+
+	@Autowired
+	private DefinitionRepository definitionRepository;
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@ResponseBody
+	public Long register(@RequestBody Scholar scholar) {
+
+		return scholarRepository.save(scholar).getId();
+	}
+
     @RequestMapping(value = "/word", method = RequestMethod.GET)
     @ResponseBody
     public String getRandomWord() {
@@ -38,24 +51,39 @@ public class SessionController {
     }
 
     @RequestMapping(value = "/start", method = RequestMethod.POST)
-    @ResponseBody
-    public String startSession(@RequestBody SessionStartRequest request) {
+	@ResponseBody
+    public Long startSession(@RequestBody SessionStartRequest request) {
 
         Session session = new Session();
         session.setWord(request.getWord());
         session.setState(SessionState.ACTIVE);
-        session.getScholars().add(new Scholar(request.getUser()));
-        sessionRepository.save(session);
-
-        return "SUCCESS";
+        session.setCreator(scholarRepository.findOne(request.getScholarId()));
+        return sessionRepository.save(session).getId();
     }
+
+	@RequestMapping(value = "/define", method = RequestMethod.POST)
+	@ResponseBody
+	public String submitDefinition(@RequestBody SubmitDefinitionRequest request) {
+
+		Scholar scholar = scholarRepository.findOne(request.getScholarId());
+		Session session = sessionRepository.findOne(request.getSessionId());
+
+		Definition definition = new Definition();
+		definition.setOwner(scholar);
+		definition.setText(request.getText());
+		definition = definitionRepository.save(definition);
+
+		session.getDefinitions().add(definition);
+		sessionRepository.save(session);
+
+		return "SUCCESS";
+	}
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)
     @ResponseBody
     public String joinSession(long id) {
 
         Session session = sessionRepository.findOne(id);
-        session.getScholars().add(new Scholar());
 
         return "SUCCESS";
     }
@@ -66,4 +94,6 @@ public class SessionController {
 
         return sessionRepository.findAll(session.state.eq(SessionState.ACTIVE));
     }
+
+
 }

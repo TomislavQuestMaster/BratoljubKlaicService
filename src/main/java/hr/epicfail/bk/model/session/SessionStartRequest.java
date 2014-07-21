@@ -7,6 +7,7 @@ public class SessionStartRequest {
 
     private String word;
     private String user;
+	private Long scholarId;
 
     public String getWord() {
         return word;
@@ -23,4 +24,14 @@ public class SessionStartRequest {
     public void setUser(String user) {
         this.user = user;
     }
+
+	public Long getScholarId() {
+
+		return scholarId;
+	}
+
+	public void setScholarId(Long scholarId) {
+
+		this.scholarId = scholarId;
+	}
 }

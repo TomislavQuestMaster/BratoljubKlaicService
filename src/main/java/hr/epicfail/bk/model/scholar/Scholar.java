@@ -1,5 +1,7 @@
 package hr.epicfail.bk.model.scholar;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.Table;
  * Created by Tomo on 20.7.2014
  */
 @Entity
+@Proxy(lazy=false)
 @Table(name = "scholars")
 public class Scholar {
 
