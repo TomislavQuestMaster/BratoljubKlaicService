@@ -3,20 +3,20 @@ package hr.epicfail.bk.model;
 /**
  * @author tdubravcevic
  */
-public class SubmitDefinitionRequest {
+public class JoinSessionRequest {
 
 	private Long sessionId;
-	private Long definitionId;
+	private Long scholarId;
 	private String text;
 
-	public Long getDefinitionId() {
+	public Long getScholarId() {
 
-		return definitionId;
+		return scholarId;
 	}
 
-	public void setDefinitionId(Long definitionId) {
+	public void setScholarId(Long scholarId) {
 
-		this.definitionId = definitionId;
+		this.scholarId = scholarId;
 	}
 
 	public String getText() {

@@ -5,16 +5,16 @@ package hr.epicfail.bk.model.session;
  */
 public class SessionStartRequest {
 
-    private String word;
+    private Long wordId;
     private String user;
 	private Long scholarId;
 
-    public String getWord() {
-        return word;
+    public Long getWordId() {
+        return wordId;
     }
 
-    public void setWord(String word) {
-        this.word = word;
+    public void setWordId(Long wordId) {
+        this.wordId = wordId;
     }
 
     public String getUser() {

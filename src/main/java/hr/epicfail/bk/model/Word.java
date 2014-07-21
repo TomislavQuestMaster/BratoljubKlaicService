@@ -2,10 +2,7 @@ package hr.epicfail.bk.model;
 
 import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Tomo.
@@ -20,6 +17,9 @@ public class Word {
     private long id;
 
     private String value;
+
+    @OneToOne
+    private Definition meaning;
 
     public Word() {
     }
@@ -42,5 +42,13 @@ public class Word {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Definition getMeaning() {
+        return meaning;
+    }
+
+    public void setMeaning(Definition meaning) {
+        this.meaning = meaning;
     }
 }

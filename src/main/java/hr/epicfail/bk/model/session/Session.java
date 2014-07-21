@@ -1,6 +1,7 @@
 package hr.epicfail.bk.model.session;
 
 import hr.epicfail.bk.model.Definition;
+import hr.epicfail.bk.model.Word;
 import hr.epicfail.bk.model.scholar.Scholar;
 import org.hibernate.annotations.Proxy;
 
@@ -20,7 +21,8 @@ public class Session {
     @GeneratedValue
     private long id;
 
-    private String word;
+    @ManyToOne
+    private Word word;
 
 	@ManyToOne
 	private Scholar creator;
@@ -43,11 +45,11 @@ public class Session {
         this.id = id;
     }
 
-    public String getWord() {
+    public Word getWord() {
         return word;
     }
 
-    public void setWord(String word) {
+    public void setWord(Word word) {
         this.word = word;
     }
 

@@ -18,9 +18,9 @@ public class Definition {
 	private long id;
 
 	private String text;
+
 	@ManyToOne
 	private Scholar owner;
-	private int grade;
 
 	public String getText() {
 
@@ -42,16 +42,6 @@ public class Definition {
 		this.owner = owner;
 	}
 
-	public int getGrade() {
-
-		return grade;
-	}
-
-	public void setGrade(int grade) {
-
-		this.grade = grade;
-	}
-
 	public long getId() {
 
 		return id;
@@ -61,4 +51,5 @@ public class Definition {
 
 		this.id = id;
 	}
+
 }
