@@ -27,7 +27,7 @@ public class Session {
 	@ManyToOne
 	private Scholar creator;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
     private List<Definition> definitions;
 
 	@Enumerated(EnumType.STRING)

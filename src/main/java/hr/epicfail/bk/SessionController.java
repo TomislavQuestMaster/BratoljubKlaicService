@@ -6,10 +6,7 @@ import hr.epicfail.bk.model.scholar.ScholarRepository;
 import hr.epicfail.bk.model.session.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
 
@@ -67,19 +64,20 @@ public class SessionController {
         definition = definitionRepository.save(definition);
 
         session.getDefinitions().add(definition);
+        sessionRepository.save(session).getId();
 
-        return sessionRepository.save(session).getId();
+        return definition.getId();
     }
 
 	@RequestMapping(value = "/define", method = RequestMethod.POST)
 	@ResponseBody
-	public String submitDefinition(@RequestBody SubmitDefinitionRequest request) {
+	public Long submitDefinition(@RequestBody SubmitDefinitionRequest request) {
 
         Definition definition = definitionRepository.findOne(request.getDefinitionId());
         definition.setText(request.getText());
         definitionRepository.save(definition);
 
-		return "SUCCESS";
+		return sessionRepository.findOne(session.definitions.contains(definition)).getId();
 	}
 
     @RequestMapping(value = "/rate", method = RequestMethod.POST)
@@ -123,9 +121,9 @@ public class SessionController {
         return "SUCCESS";
     }
 
-    @RequestMapping(value = "/definitions", method = RequestMethod.POST)
+    @RequestMapping(value = "/definitions/{sessionId}", method = RequestMethod.GET)
     @ResponseBody
-    public Iterable<Definition> getDefinitions(@RequestBody Long sessionId) {
+    public Iterable<Definition> getDefinitions(@PathVariable("sessionId")  Long sessionId) {
 
         return sessionRepository.findOne(sessionId).getDefinitions();
     }
